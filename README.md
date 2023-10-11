@@ -26,9 +26,36 @@ Una vez ejecutamos el comando anterior procedemos a realizar el mapeo de puertos
 
 > docker run -d --name asir_httpd -p 8000:80 httpd
 
-### 4 Utiliza bind mount para que el directorio del apache2 'htdocs' este montado un directorio que tu elijas.  
+### 4 Utiliza bind mount para que el directorio del apache2 'htdocs' este montado en un directorio que tu elijas.  
 
 **Utiliza: _-v "$PWD"/htdocs:/usr/local/apache2/htdocs/_**
 
 > docker run -d --name asir_httpd -p 8000:80 -v "$PWD/htdocs":/usr/local/apache2/htdocs/ httpd
 
+### 5 Realiza un 'hola mundo' en html y comprueba que accedes desde el navegador.
+
+Si realizamos dentro del directorio htdocs un documento **(index.html)** como el siguiente:
+
+> <html>
+>   <body>
+>       <p> Hola mundo </p>
+>   </body>
+> </html>
+
+Ahora si escribimos en el navegador la URL localhost:8000 podremos observar que el documento creado aparece en el navegador como una página web.
+### 6 Crea un contenedor 'asir_web1' que use este mismo directorio para 'htdocs' y el puerto 8000
+
+Para crear este contenedor realizaremos un archivo **docker-compose.yml** e incluiremos los siguientes parámetros:
+
+>services:
+>  asir_contenedor1:
+>    image: httpd:2.4
+>    ports:
+>      -"8000:80"
+>    volumes:
+>      - /home/oscar/Desktop/asir2/sri/apache/paginas:/usr/local/apache2/htdocs
+>    container_name: asir_web1
+
+Una vez terminemos lo anterior usaremos el siguiente comando para ponerlo en marcha:
+
+> docker compose up -d
